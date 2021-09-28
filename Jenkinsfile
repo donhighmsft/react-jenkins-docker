@@ -62,7 +62,7 @@ pipeline {
     post {
         always {
             echo "Finished the Docker Build"
-            echo "COMMIT TAG Build of the ${params.IMAGE_NAME}:commitID()"
+            echo "COMMIT TAG Build of the ${params.IMAGE_NAME}:${commitID()}"
             echo "JSON TAG Build of the ${params.IMAGE_NAME}:${readJSON(file: 'package.json').version}"
         }
     }
