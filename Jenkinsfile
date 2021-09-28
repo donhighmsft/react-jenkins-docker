@@ -61,6 +61,7 @@ pipeline {
     }
     post {
         always {
+            echo "Finished the Docker Build"
             //echo "Great Build of the ${params.IMAGE_NAME}:$COMMIT_TAG"
             //echo "Great Build of the ${params.IMAGE_NAME}:${readJSON(file: 'package.json').version}"
         }
