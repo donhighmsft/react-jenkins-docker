@@ -62,8 +62,15 @@ pipeline {
     post {
         always {
             echo "Finished the Docker Build"
-            //echo "Great Build of the ${params.IMAGE_NAME}:$COMMIT_TAG"
-            echo "Great Build of the ${params.IMAGE_NAME}:${readJSON(file: 'package.json').version}"
+            echo "COMMIT TAG Build of the ${params.IMAGE_NAME}:commitID()"
+            echo "JSON TAG Build of the ${params.IMAGE_NAME}:${readJSON(file: 'package.json').version}"
         }
     }
+}
+
+def commitID() {
+    sh 'git rev-parse HEAD > .git/commitID'
+    def commitID = readFile('.git/commitID').trim().take(7)
+    sh 'rm .git/commitID'
+    commitID
 }
