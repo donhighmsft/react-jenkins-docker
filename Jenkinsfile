@@ -61,8 +61,8 @@ pipeline {
     }
     post {
         always {
-            echo "Great Build of the ${params.IMAGE_NAME}:$COMMIT_TAG"
-            echo "Great Build of the ${params.IMAGE_NAME}:${readJSON(file: 'package.json').version}"
+            //echo "Great Build of the ${params.IMAGE_NAME}:$COMMIT_TAG"
+            //echo "Great Build of the ${params.IMAGE_NAME}:${readJSON(file: 'package.json').version}"
         }
     }
 }
