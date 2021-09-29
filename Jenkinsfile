@@ -58,10 +58,30 @@ pipeline {
 
             }
         }
+        stage('docker push image'){
+            when{
+                expression {
+                return params.PUSH_DOCKER_IMAGES
+                }
+            }
+            environment {
+                COMMIT_TAG = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(7)
+                BUILD_IMAGE_REPO_TAG = "${params.IMAGE_REPO_NAME}/${params.IMAGE_NAME}:${env.BUILD_TAG}"
+            }
+            steps{
+                withRegistry(${params.IMAGE_REPO_NAME}, ${params.REGISTRY_CRED}) {
+                    sh "docker push $BUILD_IMAGE_REPO_TAG"
+                    sh "docker push $BUILD_IMAGE_REPO_TAG ${params.IMAGE_NAME}:$COMMIT_TAG"
+                    sh "docker push $BUILD_IMAGE_REPO_TAG ${params.IMAGE_NAME}:${readJSON(file: 'package.json').version}"
+                    sh "docker push $BUILD_IMAGE_REPO_TAG ${params.IMAGE_NAME}:${params.LATEST_BUILD_TAG}"
+                    sh "docker push $BUILD_IMAGE_REPO_TAG ${params.IMAGE_NAME}:$BRANCH_NAME-latest"    
+                }
+            }
+        }
     }
     post {
         always {
-            echo "Finished the Docker Build"
+            echo "Finished the Docker Build and Pushed Image to Registry"
             echo "COMMIT TAG Build of the ${params.IMAGE_NAME}:${commitID()}"
             echo "JSON TAG Build of the ${params.IMAGE_NAME}:${readJSON(file: 'package.json').version}"
         }
