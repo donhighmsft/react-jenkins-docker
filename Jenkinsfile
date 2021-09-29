@@ -72,10 +72,10 @@ pipeline {
                 script {
                     docker.withRegistry("https://${params.IMAGE_REPO_NAME}", "${params.REGISTRY_CRED}") {
                         sh "docker push $BUILD_IMAGE_REPO_TAG"
-                        sh "docker push $BUILD_IMAGE_REPO_TAG ${params.IMAGE_NAME}:$COMMIT_TAG"
-                        sh "docker push $BUILD_IMAGE_REPO_TAG ${params.IMAGE_NAME}:${readJSON(file: 'package.json').version}"
-                        sh "docker push $BUILD_IMAGE_REPO_TAG ${params.IMAGE_NAME}:${params.LATEST_BUILD_TAG}"
-                        sh "docker push $BUILD_IMAGE_REPO_TAG ${params.IMAGE_NAME}:$BRANCH_NAME-latest"    
+                        sh "docker push ${params.IMAGE_NAME}:$COMMIT_TAG"
+                        sh "docker push ${params.IMAGE_NAME}:${readJSON(file: 'package.json').version}"
+                        sh "docker push ${params.IMAGE_NAME}:${params.LATEST_BUILD_TAG}"
+                        sh "docker push ${params.IMAGE_NAME}:$BRANCH_NAME-latest"    
                     }  
                 }
                 
