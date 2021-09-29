@@ -69,7 +69,7 @@ pipeline {
                 BUILD_IMAGE_REPO_TAG = "${params.IMAGE_REPO_NAME}/${params.IMAGE_NAME}:${env.BUILD_TAG}"
             }
             steps{
-                withRegistry("${params.IMAGE_REPO_NAME}", "${params.REGISTRY_CRED}") {
+                docker.withRegistry("${params.IMAGE_REPO_NAME}", "${params.REGISTRY_CRED}") {
                     sh "docker push $BUILD_IMAGE_REPO_TAG"
                     sh "docker push $BUILD_IMAGE_REPO_TAG ${params.IMAGE_NAME}:$COMMIT_TAG"
                     sh "docker push $BUILD_IMAGE_REPO_TAG ${params.IMAGE_NAME}:${readJSON(file: 'package.json').version}"
