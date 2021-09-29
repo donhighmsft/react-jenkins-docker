@@ -51,10 +51,10 @@ pipeline {
             }
             steps{
                 sh "docker build . -t $BUILD_IMAGE_REPO_TAG"
-                sh "docker tag $BUILD_IMAGE_REPO_TAG ${params.IMAGE_NAME}:$COMMIT_TAG"
-                sh "docker tag $BUILD_IMAGE_REPO_TAG ${params.IMAGE_NAME}:${readJSON(file: 'package.json').version}"
-                sh "docker tag $BUILD_IMAGE_REPO_TAG ${params.IMAGE_NAME}:${params.LATEST_BUILD_TAG}"
-                sh "docker tag $BUILD_IMAGE_REPO_TAG ${params.IMAGE_NAME}:$BRANCH_NAME-latest"
+                sh "docker tag $BUILD_IMAGE_REPO_TAG ${params.IMAGE_REPO_NAME}/${params.IMAGE_NAME}:$COMMIT_TAG"
+                sh "docker tag $BUILD_IMAGE_REPO_TAG ${params.IMAGE_REPO_NAME}/${params.IMAGE_NAME}:${readJSON(file: 'package.json').version}"
+                sh "docker tag $BUILD_IMAGE_REPO_TAG ${params.IMAGE_REPO_NAME}/${params.IMAGE_NAME}:${params.LATEST_BUILD_TAG}"
+                sh "docker tag $BUILD_IMAGE_REPO_TAG ${params.IMAGE_REPO_NAME}/${params.IMAGE_NAME}:$BRANCH_NAME-latest"
 
             }
         }
